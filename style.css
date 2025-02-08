@@ -1,0 +1,224 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #f4f6f9;
+    color: #2f2f2f;
+    font-size: 16px;
+}
+
+/* Header */
+header {
+    width: 100%;
+    background: linear-gradient(135deg, #1f3a5f, #3b4c69);
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+/* Main Content */
+.container {
+    margin: 60px auto 50px;
+    width: 85%;
+    max-width: 1200px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons */
+.auth-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.auth-buttons button {
+    background: white;
+    color: #3b4c69;
+    border: 2px solid #3b4c69;
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.auth-buttons button:hover {
+    background: #3b4c69;
+    color: white;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 15px;
+}
+
+.controls label {
+    font-size: 1em;
+    font-weight: 600;
+}
+
+.controls input,
+.controls select {
+    padding: 8px;
+    font-size: 1em;
+    border-radius: 15px;
+    border: 2px solid #ccc;
+}
+
+.controls input:focus,
+.controls select:focus {
+    border-color: #3b4c69;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 400px;
+    text-align: center;
+}
+
+.modal input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 2px solid #ccc;
+    margin: 10px 0;
+}
+
+.modal button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    background: #3b4c69;
+    color: white;
+    border: none;
+    font-size: 1em;
+}
+
+.modal button:hover {
+    background: #1f3a5f;
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(135deg, #1f3a5f, #3b4c69);
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 30px;
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background: #1e1e1e;
+    color: white;
+}
+
+.dark-mode .modal-content {
+    background: #333;
+}
+
+.dark-mode button {
+    background: #444;
+    border: 1px solid white;
+}
+
+/* Date Picker */
+#date-picker {
+    padding: 8px;
+    font-size: 16px;
+    border: 2px solid #4CAF50;
+    border-radius: 5px;
+}
+
+#date-picker:focus {
+    border-color: #FF9800;
+}
+
+/* Charts */
+#charts-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.charts-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.chart-box {
+    width: 50%;
+    max-width: 600px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .container {
+        width: 90%;
+    }
+
+    .auth-buttons {
+        flex-wrap: wrap;
+    }
+
+    .charts-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    .container {
+        width: 95%;
+    }
+
+    .auth-buttons button {
+        width: 100%;
+        text-align: center;
+        margin: 5px 0;
+    }
+
+    .controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
