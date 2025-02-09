@@ -89,7 +89,7 @@ header h1 {
     border-color: #3b4c69;
 }
 
-/* Modal */
+/* Modal - Centered */
 .modal {
     display: none;
     position: fixed;
@@ -98,6 +98,7 @@ header h1 {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -108,6 +109,22 @@ header h1 {
     border-radius: 10px;
     width: 400px;
     text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+/* Close Button */
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #3b4c69;
+}
+
+.modal-close:hover {
+    color: #1f3a5f;
 }
 
 .modal input {
@@ -220,5 +237,9 @@ body.dark-mode {
     .controls {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .modal-content {
+        width: 90%;
     }
 }

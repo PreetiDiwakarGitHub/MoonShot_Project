@@ -1,10 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const loginBtn = document.getElementById("login-btn");
-    const signupBtn = document.getElementById("signup-btn");
     const loginModal = document.getElementById("login-modal");
-    const signupModal = document.getElementById("signup-modal");
     const closeLogin = document.getElementById("close-login");
-    const closeSignup = document.getElementById("close-signup");
     const loginForm = document.getElementById("login-form");
     const chartsSection = document.getElementById("charts-section");
     const filter = document.getElementById("filter");
@@ -12,8 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const lineChartCanvas = document.getElementById("lineChart");
 
     // Age Selector Update Code
-    const ageInput = document.getElementById("age"); 
-    const ageValue = document.getElementById("age-value"); 
+    const ageInput = document.getElementById("age");
+    const ageValue = document.getElementById("age-value");
 
     ageInput.addEventListener("input", () => {
         ageValue.textContent = ageInput.value + " years"; // Update the displayed age
@@ -33,14 +30,11 @@ document.addEventListener("DOMContentLoaded", () => {
     function toggleDarkMode() {
         if (document.body.classList.contains("dark-mode")) {
             document.body.classList.remove("dark-mode");
-            localStorage.setItem("darkMode", "disabled");
+            
         } else {
             document.body.classList.add("dark-mode");
-            localStorage.setItem("darkMode", "enabled");
+            
         }
-    }
-    if (localStorage.getItem("darkMode") === "enabled") {
-        document.body.classList.add("dark-mode");
     }
     darkModeBtn.addEventListener("click", toggleDarkMode);
 
@@ -54,8 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loginBtn.addEventListener("click", () => toggleModal(loginModal, true));
     closeLogin.addEventListener("click", () => toggleModal(loginModal, false));
-    signupBtn.addEventListener("click", () => toggleModal(signupModal, true));
-    closeSignup.addEventListener("click", () => toggleModal(signupModal, false));
 
     function processChartData(data) {
         return {
@@ -98,7 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
         toggleModal(loginModal, false);
         chartsSection.style.display = "block";
         loginBtn.style.display = "none";
-        signupBtn.style.display = "none";
         logoutBtn.style.display = "block";
         showCharts();
     });
@@ -106,7 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutBtn.addEventListener("click", () => {
         chartsSection.style.display = "none";
         loginBtn.style.display = "inline";
-        signupBtn.style.display = "inline";
         logoutBtn.style.display = "none";
 
         if (barChart) {
@@ -115,5 +105,4 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    chartsSection.style.display = "none";
 });
