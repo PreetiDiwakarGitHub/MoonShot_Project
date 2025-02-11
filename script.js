@@ -1,53 +1,113 @@
 document.addEventListener("DOMContentLoaded", () => {
     const loginBtn = document.getElementById("login-btn");
+    const signupBtn = document.getElementById("signup-btn");
     const loginModal = document.getElementById("login-modal");
+    const signupModal = document.getElementById("signup-modal");
     const closeLogin = document.getElementById("close-login");
+    const closeSignup = document.getElementById("close-signup");
     const loginForm = document.getElementById("login-form");
+    const signupForm = document.getElementById("signup-form");
     const chartsSection = document.getElementById("charts-section");
     const filter = document.getElementById("filter");
     const barChartCanvas = document.getElementById("barChart");
     const lineChartCanvas = document.getElementById("lineChart");
-
-    // Age Selector Update Code
     const ageInput = document.getElementById("age");
     const ageValue = document.getElementById("age-value");
 
-    ageInput.addEventListener("input", () => {
-        ageValue.textContent = ageInput.value + " years"; // Update the displayed age
+    let loggedInUsers = new Set(JSON.parse(localStorage.getItem("loggedInUsers")) || []);
+    loginBtn.addEventListener("click", () => {
+        loginModal.style.display = "block";
+        signupModal.style.display = "none";
     });
-
+    signupBtn.addEventListener("click", () => {
+        if (loggedInUsers.size === 0) {
+            alert("Please login first before signing up!");
+        } else {
+            signupModal.style.display = "block";
+            loginModal.style.display = "none";
+        }
+    });
+    closeLogin.addEventListener("click", () => loginModal.style.display = "none");
+    closeSignup.addEventListener("click", () => signupModal.style.display = "none");
+    window.addEventListener("click", (event) => {
+        if (event.target === loginModal) {
+            loginModal.style.display = "none";
+        } else if (event.target === signupModal) {
+            signupModal.style.display = "none";
+        }
+    });
     const logoutBtn = document.createElement("button");
     logoutBtn.id = "logout-btn";
     logoutBtn.textContent = "Logout";
-    logoutBtn.style.display = "none";
+    logoutBtn.style.display = loggedInUsers.size > 0 ? "block" : "none";
     document.querySelector(".auth-buttons").appendChild(logoutBtn);
-
     const darkModeBtn = document.createElement("button");
     darkModeBtn.id = "dark-mode-toggle";
     darkModeBtn.textContent = "Toggle Dark Mode";
     document.querySelector(".auth-buttons").appendChild(darkModeBtn);
+    if (localStorage.getItem("darkMode") === "enabled") {
+        document.body.classList.add("dark-mode");
+    }
+    darkModeBtn.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
 
-    function toggleDarkMode() {
         if (document.body.classList.contains("dark-mode")) {
-            document.body.classList.remove("dark-mode");
-            
+            localStorage.setItem("darkMode", "enabled");
         } else {
-            document.body.classList.add("dark-mode");
-            
+            localStorage.setItem("darkMode", "disabled");
+        }
+    });
+
+    
+    function checkLoginStatus() {
+        if (loggedInUsers.size > 0) {
+            chartsSection.style.display = "block";
+            logoutBtn.style.display = "block";
+        } else {
+            logoutBtn.style.display = "none";
         }
     }
-    darkModeBtn.addEventListener("click", toggleDarkMode);
+    checkLoginStatus();
 
-    function toggleModal(modal, show) {
-        if (show) {
-            modal.style.display = "block";
+    loginForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const email = document.getElementById("login-email").value;
+
+        if (loggedInUsers.has(email)) {
+            alert("You are already logged in with this email!");
         } else {
-            modal.style.display = "none";
-        }
-    }
+            loggedInUsers.add(email);
+            localStorage.setItem("loggedInUsers", JSON.stringify([...loggedInUsers]));
 
-    loginBtn.addEventListener("click", () => toggleModal(loginModal, true));
-    closeLogin.addEventListener("click", () => toggleModal(loginModal, false));
+            loginModal.style.display = "none";
+            chartsSection.style.display = "block";
+            logoutBtn.style.display = "block";
+            showCharts();
+        }
+    });
+
+    signupForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const email = document.getElementById("signup-email").value;
+
+        if (!loggedInUsers.has(email)) {
+            alert("You must log in first before signing up!");
+        } else {
+            alert("Signup successful!");
+            signupModal.style.display = "none";
+        }
+    });
+
+    logoutBtn.addEventListener("click", () => {
+        loggedInUsers.clear();
+        localStorage.removeItem("loggedInUsers");
+        chartsSection.style.display = "none";
+        logoutBtn.style.display = "none";
+    });
+
+    ageInput.addEventListener("input", () => {
+        ageValue.textContent = ageInput.value + " years";
+    });
 
     function processChartData(data) {
         return {
@@ -60,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     let barChart, lineChart;
+
     function showCharts() {
         const jsonData = [
             { day: "4/10/2022", age: "15-25", gender: "Male", A: 260, B: 167 },
@@ -70,13 +131,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let chartData = processChartData(jsonData);
 
-        barChart = new Chart(barChartCanvas.getContext("2d"), { type: "bar", data: chartData });
-        lineChart = new Chart(lineChartCanvas.getContext("2d"), { type: "line", data: chartData });
+        if (!barChart) {
+            barChart = new Chart(barChartCanvas.getContext("2d"), { type: "bar", data: chartData });
+        } else {
+            barChart.data = chartData;
+            barChart.update();
+        }
+
+        if (!lineChart) {
+            lineChart = new Chart(lineChartCanvas.getContext("2d"), { type: "line", data: chartData });
+        } else {
+            lineChart.data = chartData;
+            lineChart.update();
+        }
 
         filter.addEventListener("change", () => {
             let selectedGender = filter.value;
-            let filteredData = jsonData.filter(row => selectedGender === "all" || row.gender.toLowerCase() === selectedGender.toLowerCase());
-
+            let filteredData = jsonData.filter(row => 
+                selectedGender === "all" || row.gender.toLowerCase() === selectedGender.toLowerCase()
+            );
             let newChartData = processChartData(filteredData);
             barChart.data = newChartData;
             barChart.update();
@@ -84,25 +157,4 @@ document.addEventListener("DOMContentLoaded", () => {
             lineChart.update();
         });
     }
-
-    loginForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        toggleModal(loginModal, false);
-        chartsSection.style.display = "block";
-        loginBtn.style.display = "none";
-        logoutBtn.style.display = "block";
-        showCharts();
-    });
-
-    logoutBtn.addEventListener("click", () => {
-        chartsSection.style.display = "none";
-        loginBtn.style.display = "inline";
-        logoutBtn.style.display = "none";
-
-        if (barChart) {
-            barChart.destroy();
-            lineChart.destroy();
-        }
-    });
-
 });

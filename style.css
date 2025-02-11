@@ -12,7 +12,6 @@ body {
     font-size: 16px;
 }
 
-/* Header */
 header {
     width: 100%;
     background: linear-gradient(135deg, #1f3a5f, #3b4c69);
@@ -26,8 +25,6 @@ header h1 {
     font-size: 2em;
     font-weight: bold;
 }
-
-/* Main Content */
 .container {
     margin: 60px auto 50px;
     width: 85%;
@@ -37,11 +34,10 @@ header h1 {
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
-
-/* Buttons */
 .auth-buttons {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 15px;
     margin-top: 10px;
 }
@@ -50,25 +46,27 @@ header h1 {
     background: white;
     color: #3b4c69;
     border: 2px solid #3b4c69;
-    padding: 10px 20px;
+    padding: 12px 20px;
     font-size: 1em;
     border-radius: 20px;
     cursor: pointer;
     transition: 0.3s;
+    width: 100%;
+    max-width: 200px;
+    text-align: center;
 }
 
 .auth-buttons button:hover {
     background: #3b4c69;
     color: white;
 }
-
-/* Controls */
 .controls {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     border-bottom: 2px solid #e0e0e0;
     padding-bottom: 15px;
+    gap: 10px;
 }
 
 .controls label {
@@ -82,6 +80,8 @@ header h1 {
     font-size: 1em;
     border-radius: 15px;
     border: 2px solid #ccc;
+    width: 100%;
+    max-width: 250px;
 }
 
 .controls input:focus,
@@ -89,7 +89,6 @@ header h1 {
     border-color: #3b4c69;
 }
 
-/* Modal - Centered */
 .modal {
     display: none;
     position: fixed;
@@ -111,9 +110,9 @@ header h1 {
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     position: relative;
+    max-width: 90%;
 }
 
-/* Close Button */
 .modal-close {
     position: absolute;
     top: 10px;
@@ -148,8 +147,6 @@ header h1 {
 .modal button:hover {
     background: #1f3a5f;
 }
-
-/* Footer */
 footer {
     background: linear-gradient(135deg, #1f3a5f, #3b4c69);
     color: white;
@@ -157,8 +154,6 @@ footer {
     padding: 15px 0;
     margin-top: 30px;
 }
-
-/* Dark Mode */
 body.dark-mode {
     background: #1e1e1e;
     color: white;
@@ -172,20 +167,6 @@ body.dark-mode {
     background: #444;
     border: 1px solid white;
 }
-
-/* Date Picker */
-#date-picker {
-    padding: 8px;
-    font-size: 16px;
-    border: 2px solid #4CAF50;
-    border-radius: 5px;
-}
-
-#date-picker:focus {
-    border-color: #FF9800;
-}
-
-/* Charts */
 #charts-section {
     display: flex;
     justify-content: center;
@@ -202,8 +183,6 @@ body.dark-mode {
     width: 50%;
     max-width: 600px;
 }
-
-/* Responsive */
 @media (max-width: 1024px) {
     .container {
         width: 90%;
@@ -221,17 +200,22 @@ body.dark-mode {
 
 @media (max-width: 768px) {
     header h1 {
-        font-size: 1.8em;
+        font-size: 1.6em;
     }
 
     .container {
         width: 95%;
+        padding: 20px;
+    }
+
+    .auth-buttons {
+        flex-direction: column;
+        align-items: center;
     }
 
     .auth-buttons button {
         width: 100%;
-        text-align: center;
-        margin: 5px 0;
+        max-width: 250px;
     }
 
     .controls {
@@ -241,5 +225,16 @@ body.dark-mode {
 
     .modal-content {
         width: 90%;
+    }
+
+    .charts-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .chart-box {
+        width: 100%;
+        max-width: 400px;
     }
 }

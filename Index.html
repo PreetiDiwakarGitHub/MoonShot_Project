@@ -12,6 +12,7 @@
             <h1>Interactive Data Visualization Dashboard</h1>
             <div class="auth-buttons">
                 <button id="login-btn">Login</button>
+                <button id="signup-btn">Signup</button> 
             </div>
         </div>
     </header>
@@ -44,22 +45,36 @@
             </div>
         </div>
     </div>
+
     <footer>
         <div class="footer-content">
             <p>&copy; Interactive Data Dashboard. All rights reserved.</p>
         </div>
     </footer>
-    <div id="login-modal" class="modal">
+
+    <div id="login-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close" id="close-login">&times;</span>
             <h2>Login</h2>
             <form id="login-form">
                 <input type="email" id="login-email" placeholder="Enter your email" required>
                 <input type="password" id="login-password" placeholder="Enter your password" required>
-                <button type="submit">Login</button>
+                <button type="submit" id="sumBtn">Login</button>
             </form>
         </div>
     </div>
+    <div id="signup-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" id="close-signup">&times;</span>
+            <h2>Signup</h2>
+            <form id="signup-form">
+                <input type="email" id="signup-email" placeholder="Enter your email" required>
+                <input type="password" id="signup-password" placeholder="Enter your password" required>
+                <button type="submit">Signup</button>
+            </form>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
 </body>
