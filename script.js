@@ -12,73 +12,71 @@ document.addEventListener("DOMContentLoaded", () => {
     const barChartCanvas = document.getElementById("barChart");
     const lineChartCanvas = document.getElementById("lineChart");
     const ageInput = document.getElementById("age");
-    const ageValue = document.getElementById("age-value");
+    const ageValue = document.getElementById("age-value"); 
 
-    let loggedInUsers = new Set(JSON.parse(localStorage.getItem("loggedInUsers")) || []);
+    let registeredUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
+    let loggedInUsers = JSON.parse(localStorage.getItem("loggedInUsers")) || [];
+
     loginBtn.addEventListener("click", () => {
         loginModal.style.display = "block";
         signupModal.style.display = "none";
     });
+
     signupBtn.addEventListener("click", () => {
-        if (loggedInUsers.size === 0) {
-            alert("Please login first before signing up!");
-        } else {
-            signupModal.style.display = "block";
-            loginModal.style.display = "none";
-        }
+        signupModal.style.display = "block";
+        loginModal.style.display = "none";
     });
+
     closeLogin.addEventListener("click", () => loginModal.style.display = "none");
     closeSignup.addEventListener("click", () => signupModal.style.display = "none");
+
     window.addEventListener("click", (event) => {
-        if (event.target === loginModal) {
-            loginModal.style.display = "none";
-        } else if (event.target === signupModal) {
-            signupModal.style.display = "none";
-        }
+        if (event.target === loginModal) loginModal.style.display = "none";
+        if (event.target === signupModal) signupModal.style.display = "none";
     });
+
     const logoutBtn = document.createElement("button");
     logoutBtn.id = "logout-btn";
     logoutBtn.textContent = "Logout";
-    logoutBtn.style.display = loggedInUsers.size > 0 ? "block" : "none";
+    logoutBtn.style.display = loggedInUsers.length > 0 ? "block" : "none";
     document.querySelector(".auth-buttons").appendChild(logoutBtn);
-    const darkModeBtn = document.createElement("button");
-    darkModeBtn.id = "dark-mode-toggle";
-    darkModeBtn.textContent = "Toggle Dark Mode";
-    document.querySelector(".auth-buttons").appendChild(darkModeBtn);
-    if (localStorage.getItem("darkMode") === "enabled") {
-        document.body.classList.add("dark-mode");
-    }
-    darkModeBtn.addEventListener("click", () => {
-        document.body.classList.toggle("dark-mode");
 
-        if (document.body.classList.contains("dark-mode")) {
-            localStorage.setItem("darkMode", "enabled");
-        } else {
-            localStorage.setItem("darkMode", "disabled");
-        }
-    });
-
-    
     function checkLoginStatus() {
-        if (loggedInUsers.size > 0) {
+        if (loggedInUsers.length > 0) {
             chartsSection.style.display = "block";
             logoutBtn.style.display = "block";
         } else {
+            chartsSection.style.display = "none";
             logoutBtn.style.display = "none";
         }
     }
     checkLoginStatus();
 
+    signupForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const email = document.getElementById("signup-email").value.trim();
+
+        if (registeredUsers.includes(email)) {
+            alert("This email is already registered. Please log in.");
+        } else {
+            registeredUsers.push(email);
+            localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
+            alert("Signup successful! Now you can log in.");
+            signupModal.style.display = "none";
+        }
+    });
+
     loginForm.addEventListener("submit", (event) => {
         event.preventDefault();
-        const email = document.getElementById("login-email").value;
+        const email = document.getElementById("login-email").value.trim();
 
-        if (loggedInUsers.has(email)) {
-            alert("You are already logged in with this email!");
+        if (!registeredUsers.includes(email)) {
+            alert("This email is not registered. Please sign up first.");
+        } else if (loggedInUsers.includes(email)) {
+            alert("You are already logged in!");
         } else {
-            loggedInUsers.add(email);
-            localStorage.setItem("loggedInUsers", JSON.stringify([...loggedInUsers]));
-
+            loggedInUsers.push(email);
+            localStorage.setItem("loggedInUsers", JSON.stringify(loggedInUsers));
             loginModal.style.display = "none";
             chartsSection.style.display = "block";
             logoutBtn.style.display = "block";
@@ -86,20 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    signupForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const email = document.getElementById("signup-email").value;
-
-        if (!loggedInUsers.has(email)) {
-            alert("You must log in first before signing up!");
-        } else {
-            alert("Signup successful!");
-            signupModal.style.display = "none";
-        }
-    });
-
     logoutBtn.addEventListener("click", () => {
-        loggedInUsers.clear();
+        loggedInUsers = [];
         localStorage.removeItem("loggedInUsers");
         chartsSection.style.display = "none";
         logoutBtn.style.display = "none";
